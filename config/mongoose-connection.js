@@ -1,11 +1,14 @@
 const mongoose = require("mongoose");
+const dbgr = require("debug")("development:mongoose")
+const config = require("config");
+
 
 mongoose
-  .connect("mongodb://localhost:27017/bagify")
+  .connect(`${config.get("MONGODB_URI")}/bagify`)
   .then(() => {
-    console.log("Connected to MongoDB");
+    dbgr("Connected to MongoDB");
   })
-  .catch((err) => console.log(err));
+  .catch((err) => dbgr(err));
 
 
 module.exports = mongoose.connection;

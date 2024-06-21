@@ -11,7 +11,6 @@ const userSchema = mongoose.Schema({
     },
     email: String,
     password: String,
-    isAdmin: Boolean,
     cart: {
         type: Array,
         default: []

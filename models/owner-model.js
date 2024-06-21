@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 const ownerSchema = mongoose.Schema({
     fullname: {
         type:String,
@@ -10,7 +9,6 @@ const ownerSchema = mongoose.Schema({
     },
     email: String,
     password: String,
-    isAdmin: Boolean,
     products: {
         type: Array,
         default: []
