@@ -14,16 +14,18 @@ if (process.env.NODE_ENV == "development") {
             });
         res.status(201).send(createdOwner);
     });
-    router.get("/delete", async (req, res) => {
-        const deletedOwner = await ownerModel.deleteMany();
-        res.status(200).send(deletedOwner);
-    })
-
-
+    // router.get("/delete", async (req, res) => {
+    //     const deletedOwner = await ownerModel.deleteMany();
+    //     res.status(200).send(deletedOwner);
+    // })
 }
 
 router.get("/", (req, res) => {
-  res.send("Owner Router");
+    res.send("Owner Router");
 });
+router.get('/admin',(req,res) =>{
+    let success = req.flash('success')
+    res.render('createproducts' ,{success})
+})
 
 module.exports = router;

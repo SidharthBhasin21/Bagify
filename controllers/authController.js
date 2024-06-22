@@ -1,6 +1,7 @@
 const userModel = require('../models/user-model');
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../utils/generateToken');
+const productModel = require('../models/product-model');
 
 module.exports.registerUser = async (req, res) => {
     try {
@@ -50,11 +51,12 @@ module.exports.loginUser = async (req, res) => {
             req.flash('error', 'User does not exist, please register');
             return res.redirect('/');
         }
-        bcrypt.compare(password,user.password,(err,result)=>{
+        bcrypt.compare(password,user.password, async(err,result)=>{
             if(result){
+                const products = await productModel.find();
                 const token = generateToken(user);
                 res.cookie("token", token)
-                res.status(200).send(user);
+                res.render("shop", {products})
             } else {
                 req.flash('error', 'Email or password incorrect');
                 return res.redirect('/');
@@ -63,5 +65,15 @@ module.exports.loginUser = async (req, res) => {
 
     } catch (error) {
         res.status(404).send(error.message);
+    }
+}
+module.exports.logoutUser = async (req, res) => {
+    try {
+        res.cookie('token', '');
+        req.flash('error', 'User logged out successfully');
+        return res.redirect('/');
+    } catch (error) {
+        req.flash('error', 'An error occurred');
+        return res.redirect('/');
     }
 }
